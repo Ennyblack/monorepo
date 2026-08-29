@@ -1,5 +1,11 @@
-import { apiGet } from "./apiClient";
+import { apiClient } from "./api-client";
 import { formatNgn } from "./currency";
+
+/**
+ * NOTE: Migration pending. This file currently uses the legacy api-client.ts.
+ * Per issue requirements, routing should eventually go through apiClient.ts
+ * to support frozen-account enforcement, retries, and standard error handling.
+ */
 
 export interface GasEstimate {
   estimatedFee: string;
@@ -57,7 +63,7 @@ export async function estimateGas(
   complexity: "simple" | "moderate" | "complex" = "moderate"
 ): Promise<GasEstimate & { benchmark: GasBenchmark | null }> {
   try {
-    const response = await apiGet<{
+    const response = await apiClient.get<{
       success: boolean;
       functionName: string;
       estimate: GasEstimate;
