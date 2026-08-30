@@ -9,7 +9,7 @@ import { logger } from "../utils/logger.js";
 import { AppError } from "../errors/AppError.js";
 import { ErrorCode } from "../errors/errorCodes.js";
 import { validate } from "../middleware/validate.js";
-import { requireAdminSecret, assertAdminSecret } from "../middleware/adminSecret.js";
+import { requireAdminSecret } from "../middleware/adminSecret.js";
 import { z } from "zod";
 
 // Validation schemas
@@ -34,7 +34,7 @@ const claimVestedSchema = z.object({
   beneficiary: z.string(),
 });
 
-export function createVestingScheduleRouter(adapter: SorobanAdapter) {
+export function createAdminVestingScheduleRouter(adapter: SorobanAdapter) {
   const router = Router();
 
   /**
@@ -124,6 +124,12 @@ export function createVestingScheduleRouter(adapter: SorobanAdapter) {
       }
     }
   );
+
+  return router;
+}
+
+export function createVestingScheduleRouter(adapter: SorobanAdapter) {
+  const router = Router();
 
   /**
    * GET /api/vesting-schedule/claimable
